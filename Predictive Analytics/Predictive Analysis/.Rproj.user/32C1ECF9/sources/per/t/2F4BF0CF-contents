@@ -1,0 +1,15 @@
+df<-read.csv("wisc_bc_data.csv")
+View(df)
+summary(df)
+str(df)
+##Generate random samples that is 90% of the total no. of rows of dataset.
+ran<-sample(1:nrow(df),0.9*nrow(df))
+##the normalization function is created.
+nor<-function(x){ ((x-min(x) / max(x)-min(x))) }
+
+##Run normalization on other columns of dataset because they are the predicators.
+##As 1st is categorical columns.We don't take them.
+
+df_norm<-as.data.frame(lapply(df[2:31], nor))
+
+ncol(df)

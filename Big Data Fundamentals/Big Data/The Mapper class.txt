@@ -1,0 +1,45 @@
+The Mapper is a part of the Hadoop Framework.
+It is used to transform input records into imtermediate records.
+It maps input key/value pairs to a set of intermediate key/value pairs. #Mapper works on key-value pairs
+
+#Mapper works as super class#
+
+public static class MapForWordCount extends Mapper<Longwritable, Text, Text, IntWritable>{
+
+public void map(Longwritable key, Text value, Context con) throws IOException,InterruptedException
+
+{
+<logic>
+
+con.write(outputkey, outputValue); ## This give the actual output of mapper class. i.e.,Intermediate Key-value pair.
+
+}}
+}
+
+DEFAULT MAPPER -- IDENTITY MAPPER
+
+<K,V,K,V>
+
+Method Detail
+
+1.setup #Optional step. We need to call it if we want to make any changes in the beginning,e.g-open database connection.open a file,etc.
+
+Protected void setup(org.apache.hadoop.mapreduce.Mapper.Context context) throws IOException, InterruptedException
+
+called once at the beginning of the task.
+
+2.Map ##where used context class helps to interact with outside components e.g. YARN, HDFS, etc##
+
+protected vold map (KEYIN key,VALUEIN value, org.apache.hadoop.mapreduce.Mapper.context context)throws IOException,InterruptedException
+
+called once for each key/value pair in the input split. Most applications should override this, but the default is the identity function.
+
+3.cleanup #all the open classes needs to stopped.
+
+protected void cleanup (org.apache.hadoop.mapreduce.Mapper.Context context)throws IOException,InterruptedException 
+
+Called once at the end of the task.
+
+4.Run
+public void run (org.apache.hadoop.mapreduce.Mapper.Context context)throws IOException,InterruptedException 
+Expert users can override this method for more control over the execution of mapper.

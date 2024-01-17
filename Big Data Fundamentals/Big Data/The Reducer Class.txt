@@ -1,0 +1,29 @@
+Hadoop Java programs are consist of Mapper class and Reducer class along with the driver class.
+
+reducer is the second part of the Map-Reduce programming model.
+
+Mapper produces the output in the form of key-value pairs which works as input for the Reducer.
+
+Reducer mainly performs some computation operation like addition, filtration, and aggregation.
+
+#FLOW
+
+MAPPER OUTPUT<K,V>  -->  PARTITIONER OUTPUT #It generates list of values for every key. -->  <K, LIST [V]>  -->  REDUCER
+
+#STRUCTURE
+public class r1 extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+#Iterable is used because we have multiple values.
+
+public void reduce (Text key, Iterable<IntWritable> values, Context context ) throws IOException, InterruptedException {
+
+<LOGIC> 
+context.write(key, value);
+}}
+
+
+#DEFAULT REDUCER
+
+ IDENTITY REDUCER
+
+<K,LIST[VALUES],K,LIST[VALUES]> #this is our output.

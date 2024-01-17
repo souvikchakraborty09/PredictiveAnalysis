@@ -1,0 +1,11 @@
+??chickwts
+cw<-ChickWeight
+View(cw)
+str(cw)
+summary(cw)
+head(cw)
+##Generate a random sample that is 90% of the dataset.
+ran <- sample(1:nrow(cw), 0.9*nrow(cw))
+##Create a normalization function
+nor<-function(x){ ((x-min(x))/(max(x)-min(x))) }
+##Run normalization on 1st column as they are predicators and column 2 is a categorical column.

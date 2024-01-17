@@ -1,0 +1,32 @@
+The major component in a MapReduce job is a Driver Class.
+
+It is responsible for setting up a MapReduce Job to run-in Hadoop.
+
+We specify the names of Mapper and Reducer Classes long with data types and their respective job names.
+
+public class wordcount {
+
+public static void main(String[] args) throws Exception {
+
+Configuration conf= new Configuration();
+
+//The configuration object contains all Hadoop settings necessary to launch your app. It's in key value format and is read from the xml files from /etc/hadoop. You can also use Configuration to change configuration parameters.
+
+Job job = Job.getInstance(conf, "word count");
+
+// It allows the user to configure the job, submit it, control its execution, the state
+
+job.setJarByClass (wordcount.class);
+
+//Specify various job-specific parameters
+
+job.setMapperClass(TokenizerMapper.class); //setting mapper class
+job.setCombinerClass(IntSumReducer.class); //setting combiner class
+job.setReducerClass(IntSumReducer.class); job.setOutputKeyClass(Text.class);   //setting reducer class
+job.setOutputKeyClass(Text.class); //setting output key
+job.setOutputValueClass(IntWritable.class); //setting output value
+FileInputFormat.addInputPath(job, new Path(args[0]));  ##This two statement shows the way we write input and output path in terminal.
+FileOutputFormat.setOutputPath(job, new Path(args[1]));
+job.waitForCompletion(true); //Submit the job, then poll for progress until the job is complete
+}
+}

@@ -1,0 +1,55 @@
+# Install and load necessary packages
+install.packages("caret")
+library(caret)
+
+# Load the Iris dataset
+data(iris)
+
+# Set the seed for reproducibility
+set.seed(123)
+
+# Create an index for splitting the data
+index <- createDataPartition(iris$Species, p = 0.8, list = FALSE)
+
+# Create training and testing datasets
+training_data <- iris[index, ]
+testing_data <- iris[-index, ]
+
+# Normalize the data
+normalize_data <- function(data) {
+  normalized_data <- scale(data[, 1:4])
+  colnames(normalized_data) <- colnames(data)[1:4]
+  return(cbind(normalized_data, Species = data$Species))
+}
+
+# Apply normalization to training and testing datasets
+normalized_training_data <- normalize_data(training_data)
+normalized_testing_data <- normalize_data(testing_data)
+
+# Print the first few rows of the normalized datasets
+cat("Normalized Training Data:\n")
+print(head(normalized_training_data))
+
+cat("\nNormalized Testing Data:\n")
+print(head(normalized_testing_data))
+
+# Load the Iris dataset
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Support Vector Machine (SVM) classifier
+svm_classifier = SVC(kernel='rbf', C=1, gamma='scale')
+
+# Train the classifier on the training data
+svm_classifier.fit(X_train, y_train)
+
+# Make predictions on the testing data
+y_pred = svm_classifier.predict(X_test)
+
+# Calculate the accuracy of the classifier
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy * 100:.2f}%")

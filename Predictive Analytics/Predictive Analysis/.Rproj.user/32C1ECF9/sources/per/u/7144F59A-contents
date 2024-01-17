@@ -1,0 +1,11 @@
+table(s2$Profit.flag)
+#Derive a new numeric variable, *T.cost* , to estimate total payment by
+#customer (unit price * order quantity + shipping cost).Draw a histogram
+#new variable and comment on that.
+
+s2$T.cost <- s2$Unit.Price * s2$Order.Quantity + s2$Shipping.Cost
+hist(s2$T.cost, main="Histogram of T.cost", xlab="T.cost")
+
+##Relationships between Variables
+
+cor(s1$Shipping.Cost,s1$Order.Quantity)

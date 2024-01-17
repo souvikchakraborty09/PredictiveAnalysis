@@ -1,0 +1,387 @@
+
+1. sudo apt-get install openjdk-8-jre-headless--------->terminal
+
+Check>> java -version
+pres>> usr//lib/jvm
+
+2. https://hadoop.apache.org/releases.html-------(brow).gz
+cut download>>Paste>> Ubuntu Home>>Extra .gz>>
+
+3. Install ssh >> sudo apt-get install ssh
+4. Creation >> ssh-keygen -t rsa -P ""
+
+5. cat /home/shivani/.ssh/id_rsa.pub >> /home/shivani/.ssh/authorized_keys
+
+6. gedit ~/.bashrc
+
+7. export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export HADOOP_INSTALL=/home/samrat/hadoop-3.2.4
+export PATH=$PATH:$HADOOP_INSTALL/bin
+export PATH=$PATH:$HADOOP_INSTALL/sbin
+export HADOOP_MAPRED_HOME=$HADOOP_INSTALL
+export HADOOP_COMMON_HOME=$HADOOP_INSTALL
+export HADOOP_HDFS_HOME=$HADOOP_INSTALL
+export YARN_HOME=$HADOOP_INSTALL
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_INSTALL/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_INSTALL/lib"
+
+
+8.#path
+files/home/hadoop3.2.4/hadoop/etc/hadoop-env.sh
+line no-  36
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+-------------------------------
+9. sudo mkdir -p /home/samrat/hadoop-3.2.4/tmp
+edit--core-sit.xml file
+
+<property>
+<name>hadoop.tmp.dir</name>
+<value>/home/samrat/hadoop-3.2.4/tmp</value>
+<description>A base for other temporary directories.</description>
+</property>
+<property>
+<name>fs.default.name</name>
+<value>hdfs://localhost:54310</value>
+<description>The name of the default file system. A URI whose
+scheme and authority determine the FileSystem implementation. The
+uri's scheme determines the config property (fs.SCHEME.impl) naming
+the FileSystem implementation class. The uri's authority is used to
+determine the host, port, etc. for a filesystem.</description>
+</property>
+----------------------------
+10. edit--mapred-sit.xml
+
+<property>
+<name>mapred.job.tracker</name>
+<value>localhost:54311</value>
+<description>The host and port that the MapReduce job tracker runs
+at. If "local", then jobs are run in-process as a single map
+and reduce task.
+</description>
+</property>
+---------------------------------
+11. sudo mkdir -p /usr/local/hadoop_store/hdfs/datanode
+sudo mkdir -p /usr/local/hadoop_store/hdfs/namenode
+------------------
+12. edit--hdfs-site.xml
+
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>file:/usr/local/hadoop_store/hdfs/namenode</value>
+</property>
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>file:/usr/local/hadoop_store/hdfs/datanode</value>
+</property>
+---------------------------------------------
+13. hadoop namenode -format
+-----------------
+14. start-all.sh
+
+15. jps
+if error-- then install java
+-------------------------------------
+There are 6 service 
+	1. stop-all.sh
+	2. hadoop namenode -format
+	3. start-all.sh 
+	files>>other location>>usr>>local>hadoop_store>>hdfs>>
+
+	if Datanode or Namenode are Cross
+	sudo chmod -R 777 /usr/local/hadoop_store/hdfs/datanode
+	sudo chmod -R 777 /usr/local/hadoop_store/hdfs/namenode
+
+	Then try jps cmd ,, if all 6 service not working
+	3.1. Delete file inside Datanode and Namenode
+	3.2. Delete tem file hadoop3.2.4
+	3.3.create tem file
+ 
+	After creating tem file ,if file is locked then
+	sudo chmod 777 /home/samrat/hadoop-3.2.4/tmp/
+
+	4. ls -l --(Check owner)
+
+	if jps not work,
+	5. sudo chown samrat:samrat /usr/local/hadoop_store/hdfs/datanode/
+
+	6. ls -l
+	Hadoop start
+	7. stop-all.sh
+	8. hadoop namenode -format
+	9. start-all.sh
+	10. jps
+---------------------------------
+16. hadoop fs -mkdir -p /user/saam/
+-====================================
+
+hadoop fs -mkdir -p /user/samrat/
+
+search browser---localhost:9870/
+browse the file system
+
+===================================================================================================
+-------------------
+touchz -- create empty file with extention
+gedit--- open text file
+hadoop fs -copyFromLocal [Local System file name//source ] [Destination]00- -- copy file from local to hadoop
+hadoop fs -cat [file name] -- show the data.
+hadoop fs -copyToLocal [source file//hadoop file] [Destination Location/// -/location/] -----From Hadoop to Local System
+hadoop fs -mv [Source file// Location] [Destination Location]--------------- Move the file 
+----------------------------------
+dept//tech //medi//
+=============================================================================================================
+hdfs dfs -ls
+-mv --- hadoop to hadoop
+-moveFromLocal -- move local to hadoop
+-moveToLocal-- Move hadoop to local
+
+-cat -- see the data (Give speciific path)
+-du ---size of the each file(Specific path)
+-dus --size of folder
+-get
+-put
+-cp --copy hadoop=hadoop
+-rmr --Delete the directory
+-stat -- Show properties (Date,Time)
+-getmerge --merge two file
+-test -d --check directory
+-test -f --Check file
+test -e --path
+-checksum --Modification details(time)
+-fsck - /  --Health of the system
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-count --
+-chgrp [Group] [Location] --Change the group name
+-stat %g [file name]--see the group name
+-stat %r [File name] --Replicated time
+-stat %u [Folder] -- show the user name
+stat %y --show created date and time 
+-stat %b --Block size of directory
+-usage --structure of the command
+-head --first 32k data
+-tail -- last 32k data
+-setrep -R [replication factor] [filename] ---Increase replication.
+-appendToFile --
+ -help
+-------------------------------------------------------
+-------------------------------------------------------
+-expunge  ---Delete files from the trash that are older than the retention threshold
+
+Eclipse::
+New >> Java >Java Project--java1.8
+
+
+===========================================================================
+Word Count:
+1.Create Project
+1.Create Class
+2. Copy & paste apache mapreduced code
+3. Add Jar File
+[Project >> build path >>config>> libraries>> Add Extr jar >>[home>>hadoop>>share>>hadoop]>>1.common 2.mapred  >> add 3.hdfs jar>> add 4.Yarn jar>>> 5.client.
+apply and close]
+4. if error write package name.
+5. class file---Export file and give location.
+[class>>Export>>path location>>name class browse]
+
+6. Hadoop jar [location jar file] [location hadoop file] [location hadoop file]/[name of the file ran.]outputdir 
+====================================================================================================
+
+==============HIVE================
+Start Hadoop
+Extract Apache hive bin jar file into Home
+3. gedit ~/.bashrc
+	second para[129]
+  [export HIVE_HOME =/home/samrat/copy apache file name.]
+  [export PATH=$PATH:$HIVE_HOME/bin]
+  [export HIVE_CONF_DLR=/home/samrat/apache-hive-3.1.2-bin/conf]
+4. source ~/.bashrc
+5.
+5.apache >>> conf>>rename (hive-default.xml.template and hive-env-sh.template file) without template
+6.edit Hive-enc-sh file [export HODOOP_HOME=/home/samrat/hadoop-3.2.4]
+
+7. Open Terminal [hadoop fs -mkdir -p /user/hive/warehouse]
+7. create Tmp file>> [hadoop fs -mkdir /tmp]
+8. Give Permissions [hadoop fs -chmod 777 /user/hive/warehouse]
+
+9. hadoop fs -chmod 777 /temp
+
+10. cd $HADOOP_INSTALL
+11. Change the 
+11. cd ~
+12.cd $HIVE_HOME/bin
+	[cd $HADOOP_INSTALL
+	 cd lib
+	 ls
+	 cd native/
+	 ls
+	 cd ..
+ 	 cd ..
+	 cd share/
+	cd hadoop/
+	cd common/
+	ls
+	cd lib/
+	ls
+	cp guava-27.0-jre.jar $HIVE_HOME/lib
+	cd $HIVE_HOME/lib
+	rm guava-19.0.jar
+	cd ..
+	cd bin
+	schematool -dbType derby -initSchema 
+	]
+
+13.schematool -dbType derby -initSchema 
+[If error then step 12]
+
+14. hive
+
+=============
+START HIVE::
+1. start hadoop
+2. Goto Hive location [cd $HIVE_HOME/bin]
+3.hive
+======================================================
+
+
+=======================HBASE=====================================
+=================================================================
+
+https://www.apache.org/dyn/closer.lua/hbase/2.4.17/hbase-2.4.17-bin.tar.gz
+
+1.Extract--Home
+2. Terminal-- gedit ~/.bashrc
+
+	last line-- export HBASE_HOME=/home/samrat/hbase-2.4.17-bin/hbase-2.4.17
+		--- export PATH=$PATH:$HBASE_HOME/bin
+3. hbase-2.4.17-bin>>hbase-2.4.17>>>conf>>>hbase-site.xml [EDIT FIRST LINE]
+	<property>
+  		<name>hbase.rootdir</name>
+  		<value>file:///home/samrat/hbase</value>
+ 	 </property>
+  
+  
+ 	 <property>
+  		<name>hbase.zookeeper.property.dataDir</name>
+  		<value>/home/samrat/zookeeper</value>
+ 	 </property>
+
+4. Create hbase and zookeeper Folder  and Give permission
+	-sudo mkdir hbase
+	-sudo mkdir zookeeper
+	- sudo chmod -R 777 zookeeper/
+	-sudo chmod -R 77 hbase/
+
+5.hbase-2.4.17-bin>>hbase-2.4.17>>>conf>>>hbase-env.sh [EDIT -  Set environment variables here.]
+	--export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+6. start-all.sh
+7.start-hbase.sh
+8. hbase shell
+9. status
+-------------------------------------------------------------------------------------------------------------------------HBASE COMMAND--------
+
+status
+status 'simple'
+version
+show_filters
+table_help 
+whoami  ----
+create 'table name','column family' -----------------create table
+	create 'emp','name'
+list -- check all th etable 
+drop 'table name' --- delete permanently(before delete disable table)
+disable 'table name' ------ Disable table
+is _disabled 'table name' ------- enable table
+scan 'table name' -- all the details
+disable_all
+-------------------------------------
+alter_status
+
+create_namespace'namespace name' ------create namespace
+create'namespace name:table name','columns family name' ---- create table under namespace
+	create'ns1:rt12','cf1'
+list 'ns1:rt12' -------
+describe_namespace'ns1'
+list_namespace
+-----------------
+=======DDL & DML COMMAND=================
+put 'tble name', Row no,'columns name:name','samrat'  ---Feed the table(INPUT)
+	put 'f', 1,'f1:name','samrat'
+get 'f','1' ---output
+
+====================================
+-----------CREATE TABLE USING JAVA----------------
+
+
+specify the table name nad column families
+connect to HBase
+create the table
+
+
+USE HTableDescriptor Class to specify the table name and column families
+USE Connetion 
+
+HbaseAdmin Class contain all methods for all operations(create,delete,table)
+
+
+---------------PROGRAM------------
+---------------CREATE TABLE--------------------
+file>>new>>java project>>src>>class
+ADD JAR:
+======
+project>>bulid path>>config>>libraries>>add Extra>>>[home>>Habse bin>>Hbase>>lib>>all Jar file]
+---------------
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.*;
+
+import java.io.IOException;
+
+public class CeateTable{
+public static void main(String[] args) throws IOException {
+Configuration conf=HBaseConfiguration.create();
+
+Connection connection = ConnectionFactory.createConnection(conf);
+Admin admin=connection.getAdmin();
+
+HTableDescriptor tableName= new HTableDescriptor(TableName.valueOf("mytable"));
+
+tableName.addFamily(new HColumnDescriptor("colfam1"));
+tableName.addFamily(new HColumnDescriptor("colfam2"));
+if (!admin.tableExists(tableName.getTableName())){
+System.out.print("Creating Table.");
+admin.createTable(tableName);
+System.out.println("Done");
+
+}
+
+}
+
+}
+
+=================================================
+------------------PIG INSTALATION------
+1. Ext. Home
+2. Bashrc >> last line>>
+	export PIG_HOME=/home/samrat/pig-0.17.0
+	export PATH=$PATH:$PIG_HOME/bin
+gedit ~/.bashrc
+3. source ~/.bashrc
+4. pig (grunt)
+
+-------------------------------------------------------
+pig scripts
+pig -x local
+
+-----LOad ---
+

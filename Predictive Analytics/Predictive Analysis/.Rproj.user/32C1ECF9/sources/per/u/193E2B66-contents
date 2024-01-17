@@ -1,0 +1,22 @@
+##this is used to get all the packages that are neede but unknown to us.
+data(package=.packages(all.available = TRUE))
+##Data Exploration
+
+summary(s1)
+sd(s1$Order.Quantity)
+sd(s1$Sales)
+sd(s1$Profit)
+sd(s1$Unit.Price)
+sd(s1$Shipping.Cost)
+
+##Draw a boxplot for each numeric variables. which variable(s) shows there exist
+##Outliers
+par(mfrow=c(1,2))
+boxplot(s1$Order.Quantity, main ="Order Quantity")
+boxplot(s1$Profit, main="Profit")
+boxplot(s1$Sales, main="Sales")
+boxplot(s1$Shipping.Cost, main="Shipping cost")
+boxplot(s1$Unit.Price, main="Unit Price")
+par(mfrow = c(1, 1))
+barplot(summary(s1$Order.Priority))
+summary(s1$Order.Priority)
